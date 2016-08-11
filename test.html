@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+  <title>Google Maps Multiple Markers</title> 
+  <script src="http://maps.google.com/maps/api/js?sensor=false" 
+          type="text/javascript"></script>
+</head> 
+<body>
+  <div id="map" style="width: 500px; height: 400px;"></div>
+
+  <script type="text/javascript">
+    var locations = [ 
+          ['Sammamish High School: 100 140th AVE SE Bellevue, WA 98008', 47.608559, -122.151066],
+          ['Crossroads Bellevue: 15600 NE 8th ST, Bellevue, WA 98008', 47.618613, -122.130604],
+          ['Starbucks: 3181 156th AVE SE, Bellevue, WA 98007', 47.581928, -122.134958],
+          ['My Home: 2904 168th AVE SE], Bellevue, WA 98008', 47.583769, -122.116098],
+          ['Bellevue Square: 575 Bellevue Way NE, Bellevue, WA 98004', 47.615645, -122.203725],
+          ['Taco Bell: 1960 148th Ave NE, Redmond, WA', 47.627482, -122.142689],
+          ['Seattle Humane Society: 13212 SE Eastgate Way, Bellevue, WA 98005', 47.581128, -122.163611]
+        ];
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 10,
+      center: {lat: 47.608559 , lng: -122.151066},
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+  </script>
+</body>
+</html>
